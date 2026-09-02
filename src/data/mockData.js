@@ -7,7 +7,7 @@ export const courses = [
     category: "IT & Software",
     level: "Beginner",
     duration: "6h 30m",
-    rating: 4.8,
+    rating: "",
     image:
       "https://img.freepik.com/free-photo/data-analysis-chart_23-2149151162.jpg",
     modules: [
@@ -25,7 +25,7 @@ export const courses = [
     category: "IT & Software",
     level: "Beginner",
     duration: "8h 00m",
-    rating: 4.7,
+    rating: "",
     image:
       "https://img.freepik.com/free-photo/programming-background-concept_23-2149151158.jpg",
     modules: [
@@ -42,7 +42,7 @@ export const courses = [
     category: "Business",
     level: "Intermediate",
     duration: "5h 45m",
-    rating: 4.6,
+    rating: "",
     image:
       "https://img.freepik.com/free-photo/digital-marketing-concept_23-2149151160.jpg",
     modules: [
@@ -68,7 +68,12 @@ export const quizQuestions = {
     {
       id: 2,
       prompt: "Which of these is a type of quantitative data?",
-      options: ["Customer feedback text", "Product color", "Monthly revenue", "Interview transcript"],
+      options: [
+        "Customer feedback text",
+        "Product color",
+        "Monthly revenue",
+        "Interview transcript",
+      ],
       correctIndex: 2,
     },
     {
@@ -125,57 +130,63 @@ export const quizQuestions = {
 export const trainers = [
   {
     id: 1,
-    name: "Alex Morgan",
+    name: "Vishal Aggarwal",
     role: "IT & Software Instructor",
-    rating: 4.8,
-    students: "1.2k",
-    courses: 8,
-    avatar: "https://ui-avatars.com/api/?name=Alex+Morgan&background=6b7280&color=fff",
+    rating: "",
+    students: "",
+    courses: "",
+    avatar:
+      "https://ui-avatars.com/api/?name=Alex+Morgan&background=6b7280&color=fff",
   },
   {
     id: 2,
-    name: "Jordan Lee",
+    name: "Aman Singh",
     role: "Business Instructor",
-    rating: 4.7,
-    students: "900",
-    courses: 5,
-    avatar: "https://ui-avatars.com/api/?name=Jordan+Lee&background=6b7280&color=fff",
+    rating: "",
+    students: "",
+    courses: "",
+    avatar:
+      "https://ui-avatars.com/api/?name=Jordan+Lee&background=6b7280&color=fff",
   },
   {
     id: 3,
-    name: "Sam Rivera",
+    name: "Mohammad Sharif",
     role: "Leadership Coach",
-    rating: 4.9,
-    students: "2.1k",
-    courses: 6,
-    avatar: "https://ui-avatars.com/api/?name=Sam+Rivera&background=6b7280&color=fff",
+    rating: "",
+    students: "",
+    courses: "",
+    avatar:
+      "https://ui-avatars.com/api/?name=Sam+Rivera&background=6b7280&color=fff",
   },
   {
     id: 4,
-    name: "Taylor Brooks",
+    name: "Sarvesh Kumar",
     role: "Personal Development Coach",
-    rating: 4.6,
-    students: "800",
-    courses: 4,
-    avatar: "https://ui-avatars.com/api/?name=Taylor+Brooks&background=6b7280&color=fff",
+    rating: "",
+    students: "",
+    courses: "",
+    avatar:
+      "https://ui-avatars.com/api/?name=Taylor+Brooks&background=6b7280&color=fff",
   },
   {
     id: 5,
-    name: "Casey Nguyen",
+    name: "Faizan Mahmood",
     role: "Communication Skills Trainer",
-    rating: 4.8,
-    students: "1.1k",
-    courses: 7,
-    avatar: "https://ui-avatars.com/api/?name=Casey+Nguyen&background=6b7280&color=fff",
+    rating: "",
+    students: "",
+    courses: "",
+    avatar:
+      "https://ui-avatars.com/api/?name=Casey+Nguyen&background=6b7280&color=fff",
   },
   {
     id: 6,
-    name: "Riley Chen",
+    name: "Shubham kumar",
     role: "Data & Analytics Instructor",
-    rating: 4.9,
-    students: "2.4k",
-    courses: 9,
-    avatar: "https://ui-avatars.com/api/?name=Riley+Chen&background=6b7280&color=fff",
+    rating: "",
+    students: "",
+    courses: "",
+    avatar:
+      "https://ui-avatars.com/api/?name=Riley+Chen&background=6b7280&color=fff",
   },
 ];
 

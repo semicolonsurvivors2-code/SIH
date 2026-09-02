@@ -30,15 +30,24 @@ const Login = () => {
   };
 
   return (
-    <div className="min-vh-100 d-flex align-items-center bg-light">
-      <div className="container">
-        <div className="row justify-content-center align-items-center g-5">
-          <div className="col-md-5">
-            <div className="card shadow-lg p-4 p-md-5">
-              <h3 className="fw-bold mb-1">Welcome Back!</h3>
-              <p className="text-muted mb-4">
-                Login to continue your learning journey
-              </p>
+    <div className="register-page d-flex align-items-center">
+      <div className="register-overlay"></div>
+
+      <div className="container position-relative" style={{ zIndex: 1 }}>
+        <div className="row justify-content-center">
+          <div className="col-md-6 col-lg-5">
+            <div className="register-card">
+              <div className="d-flex align-items-center gap-3 mb-3">
+                <div className="register-icon">
+                  <FaLock className="text-primary" size={22} />
+                </div>
+                <div>
+                  <h3 className="fw-bold mb-0">Welcome Back!</h3>
+                  <p className="text-muted small mb-0">
+                    Login to continue your learning journey
+                  </p>
+                </div>
+              </div>
 
               {error && (
                 <div className="alert alert-danger py-2 small">{error}</div>
@@ -58,26 +67,26 @@ const Login = () => {
               </div>
 
               <form onSubmit={handleLogin}>
-                <div className="mb-3">
+                <div className="mb-3 register-input">
                   <label className="form-label small fw-semibold">
                     Email or Phone
                   </label>
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    className="form-control"
                     placeholder="Enter your email or phone"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mb-3 register-input">
                   <label className="form-label small fw-semibold">
                     Password
                   </label>
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className="form-control"
                     placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -107,7 +116,7 @@ const Login = () => {
                 </div>
                 <button
                   type="submit"
-                  className="btn btn-primary w-100 btn-lg"
+                  className="btn btn-primary w-100 register-button"
                   disabled={loading}
                 >
                   {loading ? "Signing in..." : "Login"}
@@ -119,7 +128,8 @@ const Login = () => {
                 <span className="small text-muted">or continue with</span>
                 <hr className="flex-grow-1" />
               </div>
-              <p className="text-center mt-4 mb-0 small text-muted">
+
+              <p className="text-center mb-0 small text-muted">
                 Don't have an account?{" "}
                 <Link
                   to="/register"
@@ -130,23 +140,21 @@ const Login = () => {
               </p>
             </div>
           </div>
-          <div className="col-md-6 d-none d-md-block text-center">
-            <div className="position-relative d-inline-block">
-              <div className="bg-primary bg-opacity-10 rounded-4 p-5">
-                <img
-                  src="https://capacity.com/wp-content/uploads/2025/03/ebook_nav_image.webp"
-                  alt="Login"
-                  className="img-fluid rounded-4"
-                  style={{ maxHeight: 400 }}
-                />
-              </div>
-              <div className="position-absolute top-0 end-0 bg-white p-3 rounded-circle shadow-sm">
-                <FaLock className="text-primary" size={24} />
-              </div>
-            </div>
-          </div>
         </div>
       </div>
+
+      <style>{`
+        .register-page { min-height: 100vh; position: relative; overflow-x: hidden; background-image: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2200&q=85"); background-size: cover; background-position: center; background-attachment: fixed; }
+        .register-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(4,46,105,.86), rgba(13,92,184,.60), rgba(255,255,255,.15)); backdrop-filter: blur(1px); }
+        .register-card { background: rgba(255,255,255,.97); border: 1px solid rgba(255,255,255,.85); border-radius: 24px; padding: 2rem; box-shadow: 0 25px 70px rgba(0,31,75,.35); }
+        .register-icon { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 50%; background: #eaf3ff; font-size: 25px; }
+        .register-input .input-group-text { background: #fbfdff; border-color: #d9e2ef; color: #7c8da6; }
+        .register-input .form-control, .register-input.form-select { min-height: 50px; border-color: #d9e2ef; background: #fbfdff; }
+        .register-input .form-control:focus, .register-input.form-select:focus { border-color: #0d6efd; box-shadow: 0 0 0 .2rem rgba(13,110,253,.12); background: #fff; }
+        .register-button { min-height: 52px; border-radius: 10px; font-weight: 700; box-shadow: 0 8px 18px rgba(13,110,253,.25); }
+        .register-social { min-height: 46px; border-radius: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        @media (max-width: 575.98px) { .register-card { padding: 1.35rem; border-radius: 18px; } .register-page { background-attachment: scroll; } }
+      `}</style>
     </div>
   );
 };

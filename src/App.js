@@ -32,6 +32,7 @@ import Certificate from "./pages/Certificate";
 import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import CourseNotes from "./pages/CourseNotes";
 
 function App() {
   return (
@@ -49,6 +50,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/courses/:id" element={<CourseDetails />} />
+        <Route path="/courses/:id/notes" element={<CourseNotes />} />
 
         {/* Linked from footer, still placeholder content */}
         <Route path="/help-center" element={<ComingSoon />} />
