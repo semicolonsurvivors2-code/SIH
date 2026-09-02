@@ -10,7 +10,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='trainee')
     bio = models.TextField(blank=True)
-    avatar = models.URLField(blank=True)   # or ImageField
+    avatar = models.URLField(blank=True)
 
     def __str__(self):
         return f"{self.user.username} ({self.role})"
@@ -26,3 +26,36 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+class Quiz(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='quizzes')
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quizzes_created')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Question(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')
+    text = models.TextField()
+    option_a = models.CharField(max_length=255)
+    option_b = models.CharField(max_length=255)
+    option_c = models.CharField(max_length=255)
+    option_d = models.CharField(max_length=255)
+    correct_option = models.CharField(max_length=1, choices=[('A','A'),('B','B'),('C','C'),('D','D')])
+
+    def __str__(self):
+        return self.text
+
+class QuizAttempt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='quiz_attempts')
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='attempts')
+    score = models.IntegerField()
+    total = models.IntegerField()
+    answers = models.JSONField(default=dict)  # store answers as JSON: {question_id: selected_option}
+    completed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quiz.title} - {self.score}/{self.total}"

@@ -14,10 +14,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.shortcuts import get_object_or_404
 
-from .models import Course, Profile
-from .serializers import CourseSerializer, UserSerializer
-
+from .models import Course, Profile, Quiz, Question, QuizAttempt
+from .serializers import (
+    CourseSerializer, UserSerializer, QuizSerializer,
+    QuestionSerializer, QuizAttemptSerializer
+)
 
 # ---------- Helper to render matplotlib chart as base64 ----------
 def render_chart(fig):
@@ -28,7 +31,6 @@ def render_chart(fig):
     plt.close(fig)
     return img_b64
 
-
 # ---------- Authentication Views ----------
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -38,7 +40,6 @@ def register(request):
     email = request.data.get('email', '')
     role = request.data.get('role', 'trainee')
 
-    # Restrict role to trainee or trainer only
     if role not in ['trainee', 'trainer']:
         return Response({'error': 'Invalid role. Allowed: trainee, trainer.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -82,7 +83,7 @@ def login(request):
     try:
         role = user.profile.role
     except Profile.DoesNotExist:
-        role = 'trainee'  # fallback
+        role = 'trainee'
 
     return Response({
         'refresh': str(refresh),
@@ -95,8 +96,22 @@ def login(request):
         }
     })
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def me(request):
+    user = request.user
+    try:
+        role = user.profile.role
+    except Profile.DoesNotExist:
+        role = 'trainee'
+    return Response({
+        'id': user.id,
+        'username': user.username,
+        'email': user.email,
+        'role': role
+    })
 
-# ---------- Dashboard (role‑based charts) ----------
+# ---------- Dashboard ----------
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dashboard_stats(request):
@@ -144,7 +159,8 @@ def dashboard_stats(request):
 
     elif role == 'trainee':
         enrolled = user.enrolled_courses.all()
-        progress = [random.randint(0, 100) for _ in enrolled]  # placeholder – add real progress model later
+        # Placeholder progress – replace with real Progress model later
+        progress = [random.randint(0, 100) for _ in enrolled]
         fig, ax = plt.subplots(figsize=(8, 4))
         ax.bar([c.title for c in enrolled], progress, color='#ffc107')
         ax.set_title('Your Progress')
@@ -160,8 +176,144 @@ def dashboard_stats(request):
 
     return Response(data)
 
+# ---------- Trainer Courses ----------
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def trainer_courses(request):
+    user = request.user
+    if user.profile.role != 'trainer':
+        return Response({'error': 'Only trainers can access this'}, status=status.HTTP_403_FORBIDDEN)
+    courses = Course.objects.filter(instructor=user)
+    serializer = CourseSerializer(courses, many=True)
+    return Response(serializer.data)
 
-# ---------- Course CRUD with permissions ----------
+# ---------- Quiz Endpoints ----------
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def quiz_list_create(request):
+    if request.method == 'GET':
+        quizzes = Quiz.objects.all()
+        serializer = QuizSerializer(quizzes, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        # Only trainers/admins can create
+        if request.user.profile.role not in ['trainer', 'admin']:
+            return Response({'error': 'Only trainers can create quizzes'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Create quiz
+        serializer = QuizSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        quiz = serializer.save(created_by=request.user)
+
+        # If questions are provided in the request, create them
+        questions_data = request.data.get('questions', [])
+        for q_data in questions_data:
+            Question.objects.create(
+                quiz=quiz,
+                text=q_data.get('text'),
+                option_a=q_data.get('option_a'),
+                option_b=q_data.get('option_b'),
+                option_c=q_data.get('option_c'),
+                option_d=q_data.get('option_d'),
+                correct_option=q_data.get('correct_option', 'A')
+            )
+
+        # Return the full quiz with questions
+        return Response(QuizSerializer(quiz).data, status=status.HTTP_201_CREATED)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def quiz_detail(request, pk):
+    quiz = get_object_or_404(Quiz, pk=pk)
+
+    # Permissions for PUT/DELETE: only creator or admin
+    if request.method in ['PUT', 'DELETE']:
+        if request.user != quiz.created_by and request.user.profile.role != 'admin':
+            return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+
+    if request.method == 'GET':
+        serializer = QuizSerializer(quiz)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = QuizSerializer(quiz, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE':
+        quiz.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def add_question(request, pk):
+    quiz = get_object_or_404(Quiz, pk=pk)
+    # Only creator (trainer/admin) can add questions
+    if request.user != quiz.created_by and request.user.profile.role != 'admin':
+        return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+
+    serializer = QuestionSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(quiz=quiz)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def submit_quiz(request, pk):
+    quiz = get_object_or_404(Quiz, pk=pk)
+    answers = request.data.get('answers', [])  # list of selected indices (0-3)
+    questions = quiz.questions.all()
+    if len(answers) != len(questions):
+        return Response({'error': 'Invalid answers count'}, status=status.HTTP_400_BAD_REQUEST)
+
+    score = 0
+    results = []
+    answers_dict = {}
+    for i, q in enumerate(questions):
+        user_choice = answers[i]  # index
+        correct = (user_choice == ['A','B','C','D'].index(q.correct_option))
+        if correct:
+            score += 1
+        results.append({
+            'question_id': q.id,
+            'user_choice': user_choice,
+            'correct': correct,
+        })
+        answers_dict[str(q.id)] = user_choice
+    total = len(questions)
+
+    # Save attempt
+    attempt = QuizAttempt.objects.create(
+        user=request.user,
+        quiz=quiz,
+        score=score,
+        total=total,
+        answers=answers_dict
+    )
+
+    return Response({
+        'score': score,
+        'total': total,
+        'results': results,
+        'attempt_id': attempt.id
+    })
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def quiz_attempts_for_trainer(request):
+    # Get all attempts for quizzes created by the trainer
+    user = request.user
+    if user.profile.role not in ['trainer', 'admin']:
+        return Response({'error': 'Only trainers can view attempts'}, status=status.HTTP_403_FORBIDDEN)
+    quizzes = Quiz.objects.filter(created_by=user)
+    attempts = QuizAttempt.objects.filter(quiz__in=quizzes).order_by('-completed_at')
+    serializer = QuizAttemptSerializer(attempts, many=True)
+    return Response(serializer.data)
+
+# ---------- Course CRUD (ViewSet) ----------
 class IsTrainerOrAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         if view.action in ['list', 'retrieve']:
@@ -173,7 +325,6 @@ class IsTrainerOrAdmin(permissions.BasePermission):
         except Profile.DoesNotExist:
             return False
         return role in ['trainer', 'admin']
-
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
