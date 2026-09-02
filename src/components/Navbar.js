@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaGraduationCap } from "react-icons/fa";
-import { FiSearch, FiBell, FiMoon, FiSun, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
+import { FiSearch, FiBell, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
 import { notifications } from "../data/notifications";
 
 const dashboardPathFor = (role) =>
@@ -11,7 +10,6 @@ const dashboardPathFor = (role) =>
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -54,7 +52,7 @@ const Navbar = () => {
         </button>
 
         <div className="collapse navbar-collapse" id="nav">
-          <ul className="navbar-nav mx-auto gap-lg-3 gap-2">
+          <ul className="navbar-nav mx-auto gap-lg-5 gap-2">
             <li className="nav-item">
               <NavLink className={navLinkClass} to="/" end>Home</NavLink>
             </li>
@@ -72,7 +70,7 @@ const Navbar = () => {
             </li>
           </ul>
 
-          <form onSubmit={handleSearch} className="d-none d-lg-flex me-3" style={{ width: 220 }}>
+          <form onSubmit={handleSearch} className="d-none d-lg-flex me-4" style={{ width: 220 }}>
             <div className="input-group input-group-sm">
               <span className="input-group-text bg-white"><FiSearch size={14} /></span>
               <input
@@ -84,16 +82,6 @@ const Navbar = () => {
               />
             </div>
           </form>
-
-          <button
-            type="button"
-            className="btn btn-light me-2"
-            onClick={toggleTheme}
-            aria-label="Toggle dark mode"
-            title="Toggle dark mode"
-          >
-            {theme === "dark" ? <FiSun size={16} /> : <FiMoon size={16} />}
-          </button>
 
           {user ? (
             <div className="d-flex align-items-center gap-2">

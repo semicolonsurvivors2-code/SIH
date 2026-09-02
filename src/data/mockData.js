@@ -122,6 +122,63 @@ export const quizQuestions = {
   ],
 };
 
+export const trainers = [
+  {
+    id: 1,
+    name: "Alex Morgan",
+    role: "IT & Software Instructor",
+    rating: 4.8,
+    students: "1.2k",
+    courses: 8,
+    avatar: "https://ui-avatars.com/api/?name=Alex+Morgan&background=6b7280&color=fff",
+  },
+  {
+    id: 2,
+    name: "Jordan Lee",
+    role: "Business Instructor",
+    rating: 4.7,
+    students: "900",
+    courses: 5,
+    avatar: "https://ui-avatars.com/api/?name=Jordan+Lee&background=6b7280&color=fff",
+  },
+  {
+    id: 3,
+    name: "Sam Rivera",
+    role: "Leadership Coach",
+    rating: 4.9,
+    students: "2.1k",
+    courses: 6,
+    avatar: "https://ui-avatars.com/api/?name=Sam+Rivera&background=6b7280&color=fff",
+  },
+  {
+    id: 4,
+    name: "Taylor Brooks",
+    role: "Personal Development Coach",
+    rating: 4.6,
+    students: "800",
+    courses: 4,
+    avatar: "https://ui-avatars.com/api/?name=Taylor+Brooks&background=6b7280&color=fff",
+  },
+  {
+    id: 5,
+    name: "Casey Nguyen",
+    role: "Communication Skills Trainer",
+    rating: 4.8,
+    students: "1.1k",
+    courses: 7,
+    avatar: "https://ui-avatars.com/api/?name=Casey+Nguyen&background=6b7280&color=fff",
+  },
+  {
+    id: 6,
+    name: "Riley Chen",
+    role: "Data & Analytics Instructor",
+    rating: 4.9,
+    students: "2.4k",
+    courses: 9,
+    avatar: "https://ui-avatars.com/api/?name=Riley+Chen&background=6b7280&color=fff",
+  },
+];
+
 export const assessments = [
   {
     id: 1,

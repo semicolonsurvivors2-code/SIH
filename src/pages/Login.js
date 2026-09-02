@@ -112,7 +112,10 @@ const Login = () => {
                       Remember Me
                     </label>
                   </div>
-                  <Link to="/forgot-password" className="small text-decoration-none">
+                  <Link
+                    to="/forgot-password"
+                    className="small text-decoration-none"
+                  >
                     Forgot password?
                   </Link>
                 </div>
@@ -165,7 +168,7 @@ const Login = () => {
             <div className="position-relative d-inline-block">
               <div className="bg-primary bg-opacity-10 rounded-4 p-5">
                 <img
-                  src="https://img.freepik.com/free-vector/computer-login-concept-illustration_114360-7892.jpg"
+                  src="https://capacity.com/wp-content/uploads/2025/03/ebook_nav_image.webp"
                   alt="Login"
                   className="img-fluid rounded-4"
                   style={{ maxHeight: 400 }}
