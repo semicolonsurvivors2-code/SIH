@@ -17,9 +17,9 @@ const ExploreCourses = () => {
     {
       id: 1,
       title: "Python for Beginners",
-      instructor: "John Doe",
-      rating: 4.8,
-      students: "1.2k",
+      instructor: "Sarvesh Kumar",
+      rating: "",
+      students: "",
       price: "Free",
       category: "IT & Software",
       image:
@@ -29,8 +29,8 @@ const ExploreCourses = () => {
       id: 2,
       title: "Digital Marketing",
       instructor: "Neha Verma",
-      rating: 4.6,
-      students: "900",
+      rating: "",
+      students: "",
       price: "Free",
       category: "Business",
       image:
@@ -40,8 +40,8 @@ const ExploreCourses = () => {
       id: 3,
       title: "Web Development",
       instructor: "Rahul Singh",
-      rating: 4.7,
-      students: "1.5k",
+      rating: "",
+      students: "",
       price: "Free",
       category: "IT & Software",
       image:
@@ -51,8 +51,8 @@ const ExploreCourses = () => {
       id: 4,
       title: "Data Analytics",
       instructor: "Sarah Khan",
-      rating: 4.9,
-      students: "2.1k",
+      rating: "",
+      students: "",
       price: "Free",
       category: "IT & Software",
       image:
@@ -62,8 +62,8 @@ const ExploreCourses = () => {
       id: 5,
       title: "UI/UX Design",
       instructor: "Amit Patel",
-      rating: 4.5,
-      students: "800",
+      rating: "",
+      students: "",
       price: "Free",
       category: "IT & Software",
       image:
@@ -73,8 +73,8 @@ const ExploreCourses = () => {
       id: 6,
       title: "Public Speaking",
       instructor: "Priya Sharma",
-      rating: 4.8,
-      students: "1.1k",
+      rating: "",
+      students: "",
       price: "Free",
       category: "Communication",
       image:

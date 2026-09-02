@@ -24,6 +24,15 @@ body {
 .nav-link {
   font-weight: 500;
   font-size: 0.9rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: -0.25rem;
+  margin-right: -0.25rem;
+}
+
+.navbar .container {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 /* Buttons */
@@ -86,7 +95,13 @@ body {
   color: var(--primary);
 }
 .sidebar-icon {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .main-content {
@@ -199,6 +214,22 @@ body {
   border-radius: 3px;
 }
 
+/* Homepage spacing */
+.hero-section {
+  padding-bottom: 5rem;
+}
+.stats-overlap {
+  position: relative;
+  margin-top: -3.5rem;
+  z-index: 2;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+.section-spacious {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
   .sidebar {
@@ -210,5 +241,70 @@ body {
   .main-content {
     margin-left: 0;
     padding: 16px;
+  }
+}
+/* Course Notes page */
+.course-notes-page {
+  min-height: calc(100vh - 70px);
+  background: #f7f9fc;
+}
+
+.notes-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+
+.notes-sidebar {
+  background: #fff;
+  border: 1px solid #e7ecf3;
+  border-radius: 14px;
+  padding: 0.5rem;
+  box-shadow: 0 6px 20px rgba(20, 40, 80, 0.05);
+}
+
+.notes-topic-btn {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #33415c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.notes-topic-btn:hover {
+  background: #f0f5ff;
+}
+
+.notes-topic-btn.active {
+  background: #0d6efd;
+  color: #fff;
+}
+
+.notes-content-card {
+  background: #fff;
+  border: 1px solid #e7ecf3;
+  border-radius: 14px;
+  padding: 1.75rem;
+  min-height: 200px;
+  box-shadow: 0 6px 20px rgba(20, 40, 80, 0.05);
+  line-height: 1.7;
+}
+
+@media (max-width: 575.98px) {
+  .notes-content-card {
+    padding: 1.25rem;
   }
 }
