@@ -104,7 +104,7 @@ export default function Register() {
                       type="text"
                       name="name"
                       className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                      placeholder="John Doe"
+                      placeholder="Enter Name"
                       value={form.name}
                       onChange={handleChange}
                     />
@@ -144,8 +144,8 @@ export default function Register() {
                     value={form.role}
                     onChange={handleChange}
                   >
-                    <option value="trainee">Learner / Trainee</option>
-                    <option value="trainer">Trainer / Instructor</option>
+                    <option value="trainee">Trainee</option>
+                    <option value="trainer">Instructor</option>
                   </select>
                 </div>
 
