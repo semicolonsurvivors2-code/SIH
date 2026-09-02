@@ -15,55 +15,45 @@ const LearnerDashboard = () => {
   const stats = [
     {
       label: "Enrolled Courses",
-      value: "",
+      value: 8,
       icon: <FaBookOpen />,
       color: "primary",
     },
-    { label: "In Progress", value: "", icon: <FaSpinner />, color: "warning" },
-    {
-      label: "Completed",
-      value: "",
-      icon: <FaCheckCircle />,
-      color: "success",
-    },
-    {
-      label: "Certificates",
-      value: "",
-      icon: <FaCertificate />,
-      color: "info",
-    },
+    { label: "In Progress", value: 5, icon: <FaSpinner />, color: "warning" },
+    { label: "Completed", value: 3, icon: <FaCheckCircle />, color: "success" },
+    { label: "Certificates", value: 6, icon: <FaCertificate />, color: "info" },
   ];
 
   const recommended = [
     {
       title: "Project Management Basics",
       instructor: "Rahul Mehta",
-      rating: "",
-      students: "",
+      rating: 4.8,
+      students: "4.5k",
       image:
         "https://img.freepik.com/free-photo/business-concept-with-team-close-up_23-2149151159.jpg",
     },
     {
       title: "Financial Management",
       instructor: "Sneha Rao",
-      rating: "",
-      students: "",
+      rating: 4.7,
+      students: "3.2k",
       image:
         "https://img.freepik.com/free-photo/financial-business-chart_53876-104502.jpg",
     },
     {
       title: "Excel for Professionals",
       instructor: "Amit Kumar",
-      rating: "",
-      students: "",
+      rating: 4.9,
+      students: "5.1k",
       image:
         "https://img.freepik.com/free-photo/person-using-laptop_23-2149216321.jpg",
     },
     {
       title: "Leadership Skills",
       instructor: "Priya Sharma",
-      rating: "",
-      students: "",
+      rating: 4.6,
+      students: "2.8k",
       image:
         "https://img.freepik.com/free-photo/business-leader-concept_23-2149216322.jpg",
     },
@@ -90,7 +80,7 @@ const LearnerDashboard = () => {
           </button>
           <div className="d-flex align-items-center gap-2">
             <img
-              src=""
+              src="https://i.pravatar.cc/150?img=5"
               alt="Profile"
               className="rounded-circle"
               width="36"

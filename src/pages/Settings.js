@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 import { useToast } from "../context/ToastContext";
 import ConfirmDialog from "../components/ui/ConfirmDialog";
 import { useNavigate } from "react-router-dom";
 
 export default function Settings() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
@@ -106,6 +108,23 @@ export default function Settings() {
       </div>
 
       <div className="col-lg-4">
+        <div className="card p-4 mb-4">
+          <h6 className="fw-bold mb-3">Appearance</h6>
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="darkModeSwitch"
+              checked={theme === "dark"}
+              onChange={toggleTheme}
+            />
+            <label className="form-check-label small" htmlFor="darkModeSwitch">
+              Dark Mode
+            </label>
+          </div>
+        </div>
+
         <div className="card p-4">
           <h6 className="fw-bold mb-3">Notifications</h6>
           <div className="form-check form-switch">

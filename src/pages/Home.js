@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div>
       {/* Hero */}
-      <section className="hero-section bg-primary text-white py-5">
+      <section className="bg-primary text-white py-5">
         <div className="container text-center py-4">
           <h1 className="fw-bold display-5 mb-3">
             Unlock Your Potential with{" "}
@@ -44,23 +44,21 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="bg-white">
+      <section className="bg-white py-4 border-bottom">
         <div className="container">
-          <div className="stats-overlap bg-white p-4 mx-auto" style={{ maxWidth: 900 }}>
-            <div className="row text-center g-4">
-              {stats.map((stat, i) => (
-                <div key={i} className="col-6 col-md-3">
-                  <div className="fs-3 fw-bold text-primary">{stat.value}</div>
-                  <div className="small text-muted">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+          <div className="row text-center g-3">
+            {stats.map((stat, i) => (
+              <div key={i} className="col-6 col-md-3">
+                <div className="fs-3 fw-bold text-primary">{stat.value}</div>
+                <div className="small text-muted">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="section-spacious">
+      <section className="py-5">
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="fw-bold">Why Choose Capacity Connect?</h2>
@@ -81,7 +79,7 @@ export default function Home() {
       </section>
 
       {/* Featured Courses */}
-      <section className="section-spacious bg-light">
+      <section className="py-5 bg-light">
         <div className="container">
           <div className="text-center mb-5">
             <h2 className="fw-bold">Featured Courses</h2>
@@ -132,7 +130,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="section-spacious">
+      <section className="py-5">
         <div className="container">
           <div className="card bg-primary text-white text-center p-5 border-0">
             <h2 className="fw-bold mb-3">Ready to Start Learning?</h2>
