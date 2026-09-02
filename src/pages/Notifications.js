@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FiBell, FiBookOpen, FiClipboard, FiAward, FiInfo, FiCheck } from "react-icons/fi";
 import EmptyState from "../components/ui/EmptyState";
-import { notifications as initialNotifications } from "../data/notifications";
 
 const ICONS = {
   course: <FiBookOpen className="text-primary" />,
@@ -11,7 +10,6 @@ const ICONS = {
 };
 
 export default function Notifications() {
-  const [items, setItems] = useState(initialNotifications);
   const unreadCount = items.filter((n) => !n.read).length;
 
   const markRead = (id) =>

@@ -1,97 +1,112 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
-
-const STORAGE_KEY = "cc_auth_user";
+const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+const TOKEN_KEY = "cc_access_token";
+const USER_KEY = "cc_user";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Restore session on load
+  // Restore session from localStorage
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) setUser(JSON.parse(stored));
+      const token = localStorage.getItem(TOKEN_KEY);
+      const storedUser = localStorage.getItem(USER_KEY);
+      if (token && storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
     } catch (e) {
-      // ignore corrupt storage
+      // ignore
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const persist = (userObj) => {
-    setUser(userObj);
-    if (userObj) localStorage.setItem(STORAGE_KEY, JSON.stringify(userObj));
-    else localStorage.removeItem(STORAGE_KEY);
-  };
-
-  // NOTE: this is a client-only mock. Replace the body of these
-  // functions with real calls to your backend / auth provider.
-  const login = async (email, password, role = "trainee") => {
-    if (!email || !password) {
-      return { success: false, error: "Email and password are required" };
+  // Save token and user to localStorage and state
+  const persistAuth = (token, userData) => {
+    if (token) {
+      localStorage.setItem(TOKEN_KEY, token);
+    } else {
+      localStorage.removeItem(TOKEN_KEY);
     }
-    const userObj = {
-      id: crypto.randomUUID(),
-      name: email.split("@")[0],
-      email,
-      role,
-      provider: "password",
-      enrolledCourses: [],
-      completedCourses: [],
-      progress: 0,
-    };
-    persist(userObj);
-    return { success: true, user: userObj };
-  };
-
-  const register = async ({ name, email, password, role }) => {
-    if (!name || !email || !password) {
-      return { success: false, error: "All fields are required" };
+    if (userData) {
+      localStorage.setItem(USER_KEY, JSON.stringify(userData));
+    } else {
+      localStorage.removeItem(USER_KEY);
     }
-    const userObj = {
-      id: crypto.randomUUID(),
-      name,
-      email,
-      role: role || "trainee",
-      provider: "password",
-      enrolledCourses: [],
-      completedCourses: [],
-      progress: 0,
-    };
-    persist(userObj);
-    return { success: true, user: userObj };
+    setUser(userData);
   };
 
-  // Used by both Login and Register social buttons.
-  // In production, swap this out for the real OAuth flow (see notes below).
-  const socialLogin = async (provider, email, name, role = "trainee") => {
-    const userObj = {
-      id: crypto.randomUUID(),
-      name: name || provider,
-      email: email || `${provider}-user@example.com`,
-      role,
-      provider,
-      enrolledCourses: [],
-      completedCourses: [],
-      progress: 0,
-    };
-    persist(userObj);
-    return { success: true, user: userObj };
+  // Login with username + password
+  const login = async (username, password) => {
+    try {
+      const res = await fetch(`${API_BASE}/auth/login/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, error: data.error || "Login failed" };
+      }
+      // data should have { access, refresh, user }
+      persistAuth(data.access, data.user);
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  // Register a new user
+  const register = async ({ username, email, password, role = "trainee" }) => {
+    try {
+      const res = await fetch(`${API_BASE}/auth/register/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, email, password, role }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, error: data.error || "Registration failed" };
+      }
+      // On register, we can optionally log the user in automatically
+      // The register endpoint can also return tokens, or we can call login.
+      // For simplicity, we'll return success and let the user navigate to login.
+      // Or you can auto-login: persistAuth(data.access, data.user)
+      // We'll do auto-login if the backend returns tokens.
+      if (data.access) {
+        persistAuth(data.access, data.user);
+      }
+      return { success: true };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  // Social login (placeholder – implement with OAuth later)
+  const socialLogin = async (provider) => {
+    // For now, redirect to backend OAuth endpoint or mock
+    return { success: false, error: "Social login not configured yet" };
   };
 
   const logout = () => {
-    persist(null);
+    persistAuth(null, null);
   };
 
-  return (
-    <AuthContext.Provider
-      value={{ user, loading, login, register, socialLogin, logout }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    user,
+    loading,
+    login,
+    register,
+    socialLogin,
+    logout,
+    // helper to get token for API calls
+    token: localStorage.getItem(TOKEN_KEY),
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {

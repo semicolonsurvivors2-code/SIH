@@ -4,8 +4,8 @@ import { FaGraduationCap } from "react-icons/fa";
 import { FiSearch, FiBell, FiMoon, FiSun, FiUser, FiSettings, FiLogOut } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
-import { notifications } from "../data/notifications";
 
+const notifications = [];
 const dashboardPathFor = (role) =>
   role === "admin" ? "/admin" : role === "trainer" ? "/trainer" : "/dashboard";
 
