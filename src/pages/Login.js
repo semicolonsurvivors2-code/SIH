@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaLock, FaMicrosoft } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { FaLock } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 
 const dashboardPathFor = (role) =>
@@ -14,7 +13,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { login, socialLogin } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -28,19 +27,6 @@ const Login = () => {
     } else {
       setError(result.error || "Login failed. Please try again.");
     }
-  };
-
-  const handleSocial = async (provider) => {
-    setError("");
-    setLoading(true);
-    // NOTE: this calls the same mock socialLogin used by Register.js.
-    // To go live: for Google, wrap the app in <GoogleOAuthProvider> from
-    // @react-oauth/google and use its access token here; for Microsoft,
-    // use @azure/msal-react's useMsal().instance.loginPopup(). Both then
-    // exchange the token with your backend before calling socialLogin.
-    const result = await socialLogin(provider, "", "", role);
-    setLoading(false);
-    if (result.success) navigate(dashboardPathFor(result.user.role));
   };
 
   return (
@@ -133,26 +119,6 @@ const Login = () => {
                 <span className="small text-muted">or continue with</span>
                 <hr className="flex-grow-1" />
               </div>
-
-              <div className="d-flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => handleSocial("google")}
-                  className="btn btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2"
-                  disabled={loading}
-                >
-                  <FcGoogle size={20} /> Google
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleSocial("microsoft")}
-                  className="btn btn-outline-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2"
-                  disabled={loading}
-                >
-                  <FaMicrosoft size={18} color="#00a4ef" /> Microsoft
-                </button>
-              </div>
-
               <p className="text-center mt-4 mb-0 small text-muted">
                 Don't have an account?{" "}
                 <Link
