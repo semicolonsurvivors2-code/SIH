@@ -38,6 +38,10 @@ def register(request):
     email = request.data.get('email', '')
     role = request.data.get('role', 'trainee')
 
+    # Restrict role to trainee or trainer only
+    if role not in ['trainee', 'trainer']:
+        return Response({'error': 'Invalid role. Allowed: trainee, trainer.'}, status=status.HTTP_400_BAD_REQUEST)
+
     if not username or not password:
         return Response({'error': 'Username and password required'}, status=status.HTTP_400_BAD_REQUEST)
     if User.objects.filter(username=username).exists():
@@ -60,7 +64,6 @@ def register(request):
             'role': role
         }
     }, status=status.HTTP_201_CREATED)
-
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

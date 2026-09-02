@@ -9,7 +9,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Restore session from localStorage
   useEffect(() => {
     try {
       const token = localStorage.getItem(TOKEN_KEY);
@@ -24,7 +23,6 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  // Save token and user to localStorage and state
   const persistAuth = (token, userData) => {
     if (token) {
       localStorage.setItem(TOKEN_KEY, token);
@@ -39,7 +37,6 @@ export function AuthProvider({ children }) {
     setUser(userData);
   };
 
-  // Login with username + password
   const login = async (username, password) => {
     try {
       const res = await fetch(`${API_BASE}/auth/login/`, {
@@ -51,15 +48,13 @@ export function AuthProvider({ children }) {
       if (!res.ok) {
         return { success: false, error: data.error || "Login failed" };
       }
-      // data should have { access, refresh, user }
       persistAuth(data.access, data.user);
-      return { success: true };
+      return { success: true, user: data.user }; // ✅ return user
     } catch (err) {
       return { success: false, error: err.message };
     }
   };
 
-  // Register a new user
   const register = async ({ username, email, password, role = "trainee" }) => {
     try {
       const res = await fetch(`${API_BASE}/auth/register/`, {
@@ -71,23 +66,17 @@ export function AuthProvider({ children }) {
       if (!res.ok) {
         return { success: false, error: data.error || "Registration failed" };
       }
-      // On register, we can optionally log the user in automatically
-      // The register endpoint can also return tokens, or we can call login.
-      // For simplicity, we'll return success and let the user navigate to login.
-      // Or you can auto-login: persistAuth(data.access, data.user)
-      // We'll do auto-login if the backend returns tokens.
       if (data.access) {
         persistAuth(data.access, data.user);
       }
-      return { success: true };
+      return { success: true, user: data.user }; // ✅ return user
     } catch (err) {
       return { success: false, error: err.message };
     }
   };
 
-  // Social login (placeholder – implement with OAuth later)
   const socialLogin = async (provider) => {
-    // For now, redirect to backend OAuth endpoint or mock
+    // Placeholder – implement OAuth later
     return { success: false, error: "Social login not configured yet" };
   };
 
@@ -102,7 +91,6 @@ export function AuthProvider({ children }) {
     register,
     socialLogin,
     logout,
-    // helper to get token for API calls
     token: localStorage.getItem(TOKEN_KEY),
   };
 

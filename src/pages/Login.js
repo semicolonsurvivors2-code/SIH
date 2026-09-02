@@ -8,8 +8,7 @@ const dashboardPathFor = (role) =>
   role === "admin" ? "/admin" : role === "trainer" ? "/trainer" : "/dashboard";
 
 const Login = () => {
-  const [role, setRole] = useState("trainee");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +20,7 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    const result = await login(email, password, role);
+    const result = await login(username, password);
     setLoading(false);
     if (result.success) {
       navigate(dashboardPathFor(result.user.role));
@@ -33,12 +32,7 @@ const Login = () => {
   const handleSocial = async (provider) => {
     setError("");
     setLoading(true);
-    // NOTE: this calls the same mock socialLogin used by Register.js.
-    // To go live: for Google, wrap the app in <GoogleOAuthProvider> from
-    // @react-oauth/google and use its access token here; for Microsoft,
-    // use @azure/msal-react's useMsal().instance.loginPopup(). Both then
-    // exchange the token with your backend before calling socialLogin.
-    const result = await socialLogin(provider, "", "", role);
+    const result = await socialLogin(provider, "", "", "trainee"); // default role for social
     setLoading(false);
     if (result.success) navigate(dashboardPathFor(result.user.role));
   };
@@ -58,30 +52,17 @@ const Login = () => {
                 <div className="alert alert-danger py-2 small">{error}</div>
               )}
 
-              <div className="btn-group w-100 mb-4">
-                {["trainee", "trainer", "admin"].map((r) => (
-                  <button
-                    key={r}
-                    type="button"
-                    className={`btn ${role === r ? "btn-primary" : "btn-outline-primary"}`}
-                    onClick={() => setRole(r)}
-                  >
-                    {r.charAt(0).toUpperCase() + r.slice(1)}
-                  </button>
-                ))}
-              </div>
-
               <form onSubmit={handleLogin}>
                 <div className="mb-3">
                   <label className="form-label small fw-semibold">
-                    Email or Phone
+                    Username
                   </label>
                   <input
                     type="text"
                     className="form-control form-control-lg"
-                    placeholder="Enter your email or phone"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     required
                   />
                 </div>

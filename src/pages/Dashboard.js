@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import Loader from '../components/ui/Loader';
+import { useAuth } from '../context/AuthContext';
 
 export default function Dashboard() {
+  const { token, user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
     if (!token) {
       setLoading(false);
       return;
     }
-    fetch(`${process.env.REACT_APP_API_URL}/dashboard/`, {
+    const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api";
+    fetch(`${API_URL}/dashboard/`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => {
@@ -21,10 +23,11 @@ export default function Dashboard() {
       .then(setData)
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [token]);
 
   if (loading) return <Loader />;
-  if (!data) return <div className="text-center py-5">Please log in to view your dashboard.</div>;
+  if (!user) return <div className="text-center py-5">Please log in to view your dashboard.</div>;
+  if (!data) return <div className="text-center py-5">No dashboard data available.</div>;
 
   return (
     <div className="container py-4">

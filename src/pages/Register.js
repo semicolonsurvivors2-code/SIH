@@ -10,7 +10,7 @@ const dashboardPathFor = (role) =>
 
 export default function Register() {
   const [form, setForm] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -26,7 +26,7 @@ export default function Register() {
 
   const validate = () => {
     const newErrors = {};
-    if (!form.name.trim()) newErrors.name = "Full name is required";
+    if (!form.username.trim()) newErrors.username = "Username is required";
     if (!form.email.trim()) newErrors.email = "Email is required";
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
       newErrors.email = "Invalid email format";
@@ -55,7 +55,7 @@ export default function Register() {
     setError("");
     setLoading(true);
     const result = await register({
-      name: form.name,
+      username: form.username,
       email: form.email,
       password: form.password,
       role: form.role,
@@ -98,18 +98,18 @@ export default function Register() {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label className="form-label small fw-semibold">Full Name</label>
+              <label className="form-label small fw-semibold">Username</label>
               <div className="input-group">
                 <span className="input-group-text bg-white"><FiUser size={16} /></span>
                 <input
                   type="text"
-                  name="name"
-                  className={`form-control ${errors.name ? "is-invalid" : ""}`}
-                  placeholder="John Doe"
-                  value={form.name}
+                  name="username"
+                  className={`form-control ${errors.username ? "is-invalid" : ""}`}
+                  placeholder="Choose a username"
+                  value={form.username}
                   onChange={handleChange}
                 />
-                {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+                {errors.username && <div className="invalid-feedback">{errors.username}</div>}
               </div>
             </div>
 
@@ -140,6 +140,7 @@ export default function Register() {
                 <option value="trainee">Learner / Trainee</option>
                 <option value="trainer">Trainer / Instructor</option>
               </select>
+              <small className="text-muted">(Admin accounts can only be created by a superuser)</small>
             </div>
 
             <div className="mb-3">
