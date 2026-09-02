@@ -10,38 +10,38 @@ import {
 
 const TrainerDashboard = () => {
   const stats = [
-    { label: "My Courses", value: 12, icon: <FaBookOpen />, color: "primary" },
+    { label: "My Courses", value: "", icon: <FaBookOpen />, color: "primary" },
     {
       label: "Total Learners",
-      value: 340,
+      value: "",
       icon: <FaUsers />,
       color: "success",
     },
-    { label: "Courses", value: 8, icon: <FaChartLine />, color: "warning" },
-    { label: "Course Rating", value: "4.8", icon: <FaStar />, color: "info" },
+    { label: "Courses", value: "", icon: <FaChartLine />, color: "warning" },
+    { label: "Course Rating", value: "", icon: <FaStar />, color: "info" },
   ];
 
   const myCourses = [
     {
       title: "Data Analytics Fundamentals",
-      enrolled: 120,
-      rating: 4.7,
+      enrolled: "",
+      rating: "",
       status: "Published",
       image:
         "https://img.freepik.com/free-photo/data-analysis-chart_23-2149151162.jpg",
     },
     {
       title: "Excel for Professionals",
-      enrolled: 95,
-      rating: 4.6,
+      enrolled: "",
+      rating: "",
       status: "Published",
       image:
         "https://img.freepik.com/free-photo/person-using-laptop_23-2149216321.jpg",
     },
     {
       title: "SQL for Beginners",
-      enrolled: 80,
-      rating: 4.5,
+      enrolled: "",
+      rating: "",
       status: "Published",
       image:
         "https://img.freepik.com/free-photo/sql-database-concept_23-2149151165.jpg",

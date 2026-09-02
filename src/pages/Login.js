@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaLock, FaMicrosoft, FaEnvelope } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import { FaLock, FaEnvelope } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 
 const dashboardPathFor = (role) =>
@@ -14,7 +13,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { login, socialLogin } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -28,17 +27,6 @@ const Login = () => {
       navigate(dashboardPathFor(result.user.role));
     } else {
       setError(result.error || "Login failed. Please try again.");
-    }
-  };
-
-  const handleSocial = async (provider) => {
-    setError("");
-    setLoading(true);
-    const result = await socialLogin(provider, "", "", role);
-    setLoading(false);
-
-    if (result.success) {
-      navigate(dashboardPathFor(result.user.role));
     }
   };
 
@@ -64,8 +52,8 @@ const Login = () => {
             </h1>
 
             <p className="lead mb-4">
-              Access your courses, assignments, progress and everything you
-              need to keep learning and growing.
+              Access your courses, assignments, progress and everything you need
+              to keep learning and growing.
             </p>
 
             <div className="lms-divider" />
@@ -94,7 +82,10 @@ const Login = () => {
                 </div>
               )}
 
-              <div className="btn-group w-100 mb-4 lms-role-switch" role="group">
+              <div
+                className="btn-group w-100 mb-4 lms-role-switch"
+                role="group"
+              >
                 {["trainee", "trainer", "admin"].map((r) => (
                   <button
                     key={r}
@@ -151,7 +142,10 @@ const Login = () => {
                       type="checkbox"
                       id="remember"
                     />
-                    <label className="form-check-label small" htmlFor="remember">
+                    <label
+                      className="form-check-label small"
+                      htmlFor="remember"
+                    >
                       Remember me
                     </label>
                   </div>
@@ -178,29 +172,6 @@ const Login = () => {
                   or continue with
                 </span>
                 <hr className="flex-grow-1 m-0" />
-              </div>
-
-              <div className="row g-2">
-                <div className="col-6">
-                  <button
-                    type="button"
-                    onClick={() => handleSocial("google")}
-                    className="btn btn-outline-secondary w-100 lms-social-button"
-                    disabled={loading}
-                  >
-                    <FcGoogle size={19} /> Google
-                  </button>
-                </div>
-                <div className="col-6">
-                  <button
-                    type="button"
-                    onClick={() => handleSocial("microsoft")}
-                    className="btn btn-outline-secondary w-100 lms-social-button"
-                    disabled={loading}
-                  >
-                    <FaMicrosoft size={17} color="#00a4ef" /> Microsoft
-                  </button>
-                </div>
               </div>
 
               <p className="text-center mt-4 mb-0 small text-muted">

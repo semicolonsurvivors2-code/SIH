@@ -19,41 +19,51 @@ const LearnerDashboard = () => {
       icon: <FaBookOpen />,
       color: "primary",
     },
-    { label: "In Progress", value: 5, icon: <FaSpinner />, color: "warning" },
-    { label: "Completed", value: 3, icon: <FaCheckCircle />, color: "success" },
-    { label: "Certificates", value: 6, icon: <FaCertificate />, color: "info" },
+    { label: "In Progress", value: "", icon: <FaSpinner />, color: "warning" },
+    {
+      label: "Completed",
+      value: "",
+      icon: <FaCheckCircle />,
+      color: "success",
+    },
+    {
+      label: "Certificates",
+      value: "",
+      icon: <FaCertificate />,
+      color: "info",
+    },
   ];
 
   const recommended = [
     {
       title: "Project Management Basics",
       instructor: "Rahul Mehta",
-      rating: 4.8,
-      students: "4.5k",
+      rating: "",
+      students: "",
       image:
         "https://img.freepik.com/free-photo/business-concept-with-team-close-up_23-2149151159.jpg",
     },
     {
       title: "Financial Management",
       instructor: "Sneha Rao",
-      rating: 4.7,
-      students: "3.2k",
+      rating: "",
+      students: "",
       image:
         "https://img.freepik.com/free-photo/financial-business-chart_53876-104502.jpg",
     },
     {
       title: "Excel for Professionals",
       instructor: "Amit Kumar",
-      rating: 4.9,
-      students: "5.1k",
+      rating: "",
+      students: "",
       image:
         "https://img.freepik.com/free-photo/person-using-laptop_23-2149216321.jpg",
     },
     {
       title: "Leadership Skills",
       instructor: "Priya Sharma",
-      rating: 4.6,
-      students: "2.8k",
+      rating: "",
+      students: "",
       image:
         "https://img.freepik.com/free-photo/business-leader-concept_23-2149216322.jpg",
     },
@@ -80,7 +90,7 @@ const LearnerDashboard = () => {
           </button>
           <div className="d-flex align-items-center gap-2">
             <img
-              src="https://i.pravatar.cc/150?img=5"
+              src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=-mUWsTSENkugJ3qs5covpaj-bhYpxXY-v9RDpzsw504="
               alt="Profile"
               className="rounded-circle"
               width="36"
@@ -182,7 +192,7 @@ const LearnerDashboard = () => {
           <div className="card p-3">
             <div className="d-flex align-items-center gap-3 mb-3">
               <img
-                src="https://i.pravatar.cc/150?img=9"
+                src="https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=1024x1024&w=is&k=20&c=-mUWsTSENkugJ3qs5covpaj-bhYpxXY-v9RDpzsw504="
                 alt="Trainer"
                 className="rounded-circle"
                 width="48"

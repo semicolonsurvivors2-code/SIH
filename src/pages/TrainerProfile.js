@@ -4,10 +4,10 @@ import { courses } from "../data/mockData";
 
 export default function TrainerProfile() {
   const stats = [
-    { label: "Courses", value: 8, icon: <FaBookOpen /> },
-    { label: "Learners", value: "1.2k", icon: <FaUsers /> },
-    { label: "Rating", value: "4.8", icon: <FaStar /> },
-    { label: "Certifications", value: 3, icon: <FaCertificate /> },
+    { label: "Courses", value: "", icon: <FaBookOpen /> },
+    { label: "Learners", value: "", icon: <FaUsers /> },
+    { label: "Rating", value: "", icon: <FaStar /> },
+    { label: "Certifications", value: "", icon: <FaCertificate /> },
   ];
 
   return (
@@ -15,7 +15,7 @@ export default function TrainerProfile() {
       <div className="card p-4 mb-4">
         <div className="d-flex flex-column flex-md-row align-items-md-center gap-4">
           <img
-            src="https://i.pravatar.cc/150?img=12"
+            src=""
             alt="Trainer"
             className="rounded-circle"
             width="96"
@@ -23,7 +23,9 @@ export default function TrainerProfile() {
           />
           <div className="flex-grow-1">
             <h4 className="fw-bold mb-1">Rahul Singh</h4>
-            <p className="text-muted small mb-2">Senior Web Development Instructor</p>
+            <p className="text-muted small mb-2">
+              Senior Web Development Instructor
+            </p>
             <p className="small text-muted mb-0" style={{ maxWidth: 500 }}>
               10+ years building and teaching full-stack web development, with a
               focus on practical, project-based learning.
@@ -37,7 +39,9 @@ export default function TrainerProfile() {
         {stats.map((s, i) => (
           <div key={i} className="col-6 col-md-3">
             <div className="card p-3 text-center">
-              <div className="text-primary mb-1 d-flex justify-content-center">{s.icon}</div>
+              <div className="text-primary mb-1 d-flex justify-content-center">
+                {s.icon}
+              </div>
               <div className="fw-bold fs-5">{s.value}</div>
               <div className="small text-muted">{s.label}</div>
             </div>
@@ -53,10 +57,16 @@ export default function TrainerProfile() {
               {courses.map((c) => (
                 <div key={c.id} className="col-md-6">
                   <div className="card h-100">
-                    <img src={c.image} className="course-card-img" alt={c.title} />
+                    <img
+                      src={c.image}
+                      className="course-card-img"
+                      alt={c.title}
+                    />
                     <div className="card-body">
                       <h6 className="fw-bold mb-1 small">{c.title}</h6>
-                      <span className="small"><FaStar className="text-warning" size={12} /> {c.rating}</span>
+                      <span className="small">
+                        <FaStar className="text-warning" size={12} /> {c.rating}
+                      </span>
                     </div>
                   </div>
                 </div>
