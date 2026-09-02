@@ -18,6 +18,7 @@ import {
   FaUsers,
   FaFlag,
   FaTimes,
+  FaPlusCircle,  // <-- imported
 } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 
@@ -48,6 +49,7 @@ const Sidebar = ({ user, open, onClose }) => {
     { to: "/trainer", icon: <FaHome />, label: "Dashboard" },
     { to: "/trainer/courses", icon: <FaBook />, label: "My Courses" },
     { to: "/trainer/learners", icon: <FaUsers />, label: "Learners" },
+    { to: "/create-quiz", icon: <FaPlusCircle />, label: "Create Quiz" }, // <-- added
     { to: "/live-sessions", icon: <FaVideo />, label: "Live Sessions" },
     { to: "/assessments", icon: <FaClipboardCheck />, label: "Assessments" },
     { to: "/trainer/analytics", icon: <FaChartBar />, label: "Analytics" },
@@ -73,7 +75,6 @@ const Sidebar = ({ user, open, onClose }) => {
 
   return (
     <>
-      {/* Backdrop on mobile when the sidebar is open */}
       {open && (
         <div
           onClick={onClose}

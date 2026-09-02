@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import Loader from '../components/ui/Loader';
 import EmptyState from '../components/ui/EmptyState';
 
-export default function QuizAttempt() {
+export default function TakeQuiz() {
   const { id } = useParams();
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -22,18 +22,17 @@ export default function QuizAttempt() {
     }
     const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
     fetch(`${API_URL}/quizzes/${id}/`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then((res) => {
+      .then(res => {
         if (!res.ok) throw new Error('Quiz not found');
         return res.json();
       })
-      .then((data) => {
+      .then(data => {
         setQuiz(data);
         setAnswers(new Array(data.questions.length).fill(null));
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(err => {
         setError(err.message);
       })
       .finally(() => setLoading(false));
@@ -46,7 +45,7 @@ export default function QuizAttempt() {
   };
 
   const handleSubmit = async () => {
-    if (answers.some((a) => a === null)) {
+    if (answers.some(a => a === null)) {
       alert('Please answer all questions.');
       return;
     }
@@ -57,13 +56,17 @@ export default function QuizAttempt() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({ answers })
       });
-      if (!res.ok) throw new Error('Submission failed');
       const result = await res.json();
-      navigate(`/assessments/${id}/result`, { state: { result, quiz } });
+      if (!res.ok) {
+        alert(result.error || 'Submission failed');
+        setSubmitting(false);
+        return;
+      }
+      navigate(`/quiz/${id}/result`, { state: { result, quiz } });
     } catch (err) {
       alert(err.message);
       setSubmitting(false);

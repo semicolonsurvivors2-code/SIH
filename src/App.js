@@ -21,6 +21,8 @@ import TrainerProfile from "./pages/TrainerProfile";
 
 import Assessments from "./pages/Assessments";
 import QuizAttempt from "./pages/QuizAttempt";
+import TakeQuiz from './pages/TakeQuiz';
+import CreateQuiz from './pages/CreateQuiz';
 import QuizResult from "./pages/QuizResult";
 import Certificates from "./pages/Certificates";
 import Certificate from "./pages/Certificate";
@@ -55,6 +57,9 @@ function App() {
         <Route path="/assessments" element={<Assessments />} />
         <Route path="/assessments/:id" element={<QuizAttempt />} />
         <Route path="/assessments/:id/result" element={<QuizResult />} />
+        <Route path="/create-quiz" element={<CreateQuiz />} />
+        <Route path="/quiz/:id" element={<TakeQuiz />} />
+        <Route path="/quiz/:id/result" element={<QuizResult />} />
         <Route path="/certificates" element={<Certificates />} />
         <Route path="/certificate/:id" element={<Certificate />} />
         <Route path="/notifications" element={<Notifications />} />
